@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pre-Order Swadvansh Snacks</title>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  
+  <!-- COMPLETE CSS STYLES -->
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #0c0c0e; color: #f0f0f0; padding: 25px 15px; }
+    .container { max-width: 680px; margin: 0 auto; background: #16161a; border: 1px solid #2a2a32; padding: 28px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
+    
+    h2 { text-align: center; color: #c5a059; margin-bottom: 22px; font-size: 24px; letter-spacing: 0.5px; text-transform: uppercase; }
+    
+    /* YogaBar Style Product Grid Layout */
+    .product-grid { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 25px; }
+    .product-card { border: 2px solid #2a2a32; border-radius: 14px; padding: 18px 14px; width: 290px; text-align: center; background: #1e1e24; position: relative; transition: all 0.3s ease; }
+    .product-card.selected-card { border-color: #c5a059; box-shadow: 0 0 12px rgba(197, 160, 89, 0.2); }
+    
+    .badge { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: #e63946; color: #fff; font-size: 9px; font-weight: 800; padding: 4px 10px; border-radius: 20px; white-space: nowrap; text-transform: uppercase; letter-spacing: 0.5px; }
+    .badge.gold { background: #c5a059; color: #000; }
+    
+    .product-img { width: 100%; height: 130px; object-fit: contain; margin-top: 10px; border-radius: 8px; }
+    
+    .price-display { font-size: 20px; font-weight: 700; color: #fff; margin: 10px 0 6px 0; }
+    .price-display del { color: #777; font-size: 14px; margin-left: 6px; font-weight: 400; }
+    
+    .pack-options { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+    
+    .size-btn { padding: 9px; border: 1px solid #3a3a46; background: #16161a; color: #ccc; border-radius: 8px; cursor: pointer; font-size: 11px; font-weight: 600; transition: all 0.2s ease; }
+    .size-btn:hover { border-color: #c5a059; color: #fff; }
+    .size-btn.active { background: #c5a059; color: #000; border-color: #c5a059; font-weight: 700; }
+    
+    .delivery-text { font-size: 11px; color: #8a8a9a; margin-top: 4px; }
+
+    /* Order Summary Box */
+    .summary-box { background: #1e1e24; border-left: 4px solid #c5a059; padding: 14px 16px; margin: 22px 0; font-size: 13px; border-radius: 0 8px 8px 0; }
+    .summary-box div { margin-bottom: 6px; display: flex; justify-content: space-between; }
+    .summary-box div:last-child { margin-bottom: 0; }
+    .highlight-delivery { color: #c5a059; font-weight: 600; }
+
+    /* Form Inputs */
+    .form-group { margin-bottom: 14px; text-align: left; }
+    .form-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 5px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+    .form-group input { width: 100%; padding: 11px; border-radius: 8px; border: 1px solid #3a3a46; background: #101014; color: #fff; font-size: 13px; outline: none; transition: border-color 0.2s; }
+    .form-group input:focus { border-color: #c5a059; }
+    .row { display: flex; gap: 10px; }
+
+    /* Submit Button */
+    .btn-submit { width: 100%; padding: 14px; background: #c5a059; color: #000; font-weight: 800; font-size: 15px; border: none; border-radius: 8px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 10px; transition: background 0.2s; }
+    .btn-submit:hover { background: #d4af37; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Swadvansh Snacks Pre-Order</h2>
+
+  <!-- YogaBar Style Dual Product Cards -->
+  <div class="product-grid">
+    
+    <!-- 100g Variant Card -->
+    <div class="product-card selected-card" id="card-100g">
+      <span class="badge">FIRST 30 CUSTOMERS - 10% OFF</span>
+      <img src="image_2b6dea.jpg" alt="100g Pack" class="product-img">
+      <h3 style="font-size:16px; margin-top:8px;">100g Pack</h3>
+      <p class="price-display">₹89.10 <del>₹99</del></p>
+      
+      <div class="pack-options">
+        <button type="button" class="size-btn active" onclick="selectPack('100g_1', this, 'card-100g')">1 Pack (10% OFF)</button>
+        <button type="button" class="size-btn" onclick="selectPack('100g_2', this, 'card-100g')">Pack of 2 (15% OFF)</button>
+        <button type="button" class="size-btn" onclick="selectPack('100g_3', this, 'card-100g')">Pack of 3 (15% OFF)</button>
+      </div>
+      <p class="delivery-text">+ Delivery Charge Extra</p>
+    </div>
+
+    <!-- 150g Variant Card -->
+    <div class="product-card" id="card-150g">
+      <span class="badge gold">CLASSIC SIZE</span>
+      <img src="image_2b6dea.jpg" alt="150g Pack" class="product-img">
+      <h3 style="font-size:16px; margin-top:8px;">150g Pack</h3>
+      <p class="price-display">₹149.00</p>
+      
+      <div class="pack-options">
+        <button type="button" class="size-btn" onclick="selectPack('150g_1', this, 'card-150g')">1 Pack</button>
+        <button type="button" class="size-btn" onclick="selectPack('150g_2', this, 'card-150g')">Pack of 2</button>
+        <button type="button" class="size-btn" onclick="selectPack('150g_3', this, 'card-150g')">Pack of 3</button>
+      </div>
+      <p class="delivery-text">Standard Shipping</p>
+    </div>
+
+  </div>
+
+  <!-- Realtime Order Summary Box -->
+  <div class="summary-box">
+    <div><span>Selected Pack:</span> <strong id="summary-name">100g Single Pack (10% OFF)</strong></div>
+    <div><span>Total Price:</span> <strong>₹<span id="summary-total">89.10</span> <span id="summary-delivery" class="highlight-delivery">(+ Delivery as per location)</span></strong></div>
+    <div><span>Advance Deposit (50%):</span> <strong style="color: #c5a059;">₹<span id="summary-deposit">45.00</span></strong></div>
+  </div>
+
+  <!-- Shipping Form -->
+  <form id="preOrderForm" onsubmit="event.preventDefault(); payNow();">
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="name" required placeholder="Enter full name">
+    </div>
+    
+    <div class="form-group">
+      <label>Phone Number</label>
+      <input type="tel" id="phone" required placeholder="10-digit mobile number">
+    </div>
+
+    <div class="form-group">
+      <label>Street / Flat / House No.</label>
+      <input type="text" id="street" required placeholder="Address line 1">
+    </div>
+
+    <div class="row">
+      <div class="form-group" style="flex: 1;">
+        <label>City</label>
+        <input type="text" id="city" required>
+      </div>
+      <div class="form-group" style="flex: 1;">
+        <label>State</label>
+        <input type="text" id="state" required>
+      </div>
+      <div class="form-group" style="flex: 1;">
+        <label>Pincode</label>
+        <input type="text" id="pincode" required>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-submit">Pay 50% Deposit & Pre-Order Now</button>
+  </form>
+</div>
+
+<!-- COMPLETE JAVASCRIPT LOGIC -->
+<script>
+  // Replace these credentials with your actual Keys & Deployment URL
+  const RAZORPAY_KEY = "rzp_test_TamERSEicizxvG"; 
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/YOUR_EXEC_ID/exec";
+
+  // Product Pricing Data Map
+  const packDetails = {
+    "100g_1": { name: "100g Single Pack (10% OFF)", total: 89.10, deposit: 45.00, deliveryNote: "(+ Delivery as per location)" },
+    "100g_2": { name: "100g Pack of 2 (15% OFF)", total: 168.30, deposit: 84.00, deliveryNote: "(FREE Delivery)" },
+    "100g_3": { name: "100g Pack of 3 (15% OFF)", total: 252.45, deposit: 126.00, deliveryNote: "(FREE Delivery)" },
+    "150g_1": { name: "150g Single Pack", total: 149.00, deposit: 75.00, deliveryNote: "(Standard Delivery)" },
+    "150g_2": { name: "150g Pack of 2", total: 298.00, deposit: 149.00, deliveryNote: "(Standard Delivery)" },
+    "150g_3": { name: "150g Pack of 3", total: 447.00, deposit: 224.00, deliveryNote: "(Standard Delivery)" }
+  };
+
+  let selectedKey = "100g_1";
+
+  // Handles Variant Buttons Click
+  function selectPack(key, element, cardId) {
+    selectedKey = key;
+
+    // Reset all buttons active state
+    document.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('active'));
+    element.classList.add('active');
+
+    // Highlight active card border
+    document.querySelectorAll('.product-card').forEach(card => card.classList.remove('selected-card'));
+    document.getElementById(cardId).classList.add('selected-card');
+
+    // Update Summary Box DOM Elements
+    const pack = packDetails[selectedKey];
+    document.getElementById("summary-name").innerText = pack.name;
+    document.getElementById("summary-total").innerText = pack.total.toFixed(2);
+    document.getElementById("summary-deposit").innerText = pack.deposit.toFixed(2);
+    document.getElementById("summary-delivery").innerText = pack.deliveryNote;
+  }
+
+  // Triggers Razorpay Checkout & Webhook Payload
+  function payNow() {
+    const name = document.getElementById("name").value;
+    const phone = document.getElementById("phone").value;
+    const street = document.getElementById("street").value;
+    const city = document.getElementById("city").value;
+    const state = document.getElementById("state").value;
+    const pincode = document.getElementById("pincode").value;
+    const fullAddress = `${street}, ${city}, ${state} - ${pincode}`;
+
+    const selectedPack = packDetails[selectedKey];
+
+    const options = {
+      "key": RAZORPAY_KEY,
+      "amount": Math.round(selectedPack.deposit * 100), // Amount in Paise
+      "currency": "INR",
+      "name": "Swadvansh Snacks",
+      "description": "50% Deposit for " + selectedPack.name,
+      "handler": function (response) {
+        // Post data to Google Apps Script Web App
+        fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: name,
+            phone: phone,
+            street: street,
+            city: city,
+            state: state,
+            pincode: pincode,
+            fullAddress: fullAddress,
+            pack: selectedPack.name,
+            totalPrice: selectedPack.total,
+            paidDeposit: selectedPack.deposit,
+            dueBalance: (selectedPack.total - selectedPack.deposit).toFixed(2),
+            paymentId: response.razorpay_payment_id
+          })
+        }).then(() => {
+          alert("Pre-order placed successfully! Payment ID: " + response.razorpay_payment_id);
+          document.getElementById("preOrderForm").reset();
+        }).catch(() => {
+          alert("Payment done, but failed to sync data.");
+        });
+      },
+      "prefill": { "name": name, "contact": phone },
+      "theme": { "color": "#c5a059" }
+    };
+
+    const rzp = new Razorpay(options);
+    rzp.open();
+  }
+</script>
+
+</body>
+<script src="script.js"></script>
+</html>
