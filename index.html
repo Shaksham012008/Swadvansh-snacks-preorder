@@ -80,8 +80,8 @@
       
       <div class="pack-options">
         <button type="button" class="size-btn active btn-100g" onclick="selectPackOption('100g', '100g_1', this)">1 Pack (10% OFF - ₹89.10)</button>
-        <button type="button" class="size-btn btn-100g" onclick="selectPackOption('100g', '100g_2', this)">Pack of 2 (10% OFF - ₹178.20)</button>
-        <button type="button" class="size-btn btn-100g" onclick="selectPackOption('100g', '100g_3', this)">Pack of 3 (10% OFF - ₹267.30)</button>
+        <button type="button" class="size-btn btn-100g" onclick="selectPackOption('100g', '100g_2', this)">Pack of 2 (10% OFF + FREE Delivery - ₹178.20)</button>
+        <button type="button" class="size-btn btn-100g" onclick="selectPackOption('100g', '100g_3', this)">Pack of 3 (10% OFF + FREE Delivery - ₹267.30)</button>
       </div>
     </div>
 
@@ -99,8 +99,8 @@
       
       <div class="pack-options">
         <button type="button" class="size-btn btn-150g" onclick="selectPackOption('150g', '150g_1', this)">1 Pack (10% OFF FOR FIRST 30 CUSTOMERS - ₹119.00)</button>
-        <button type="button" class="size-btn btn-150g" onclick="selectPackOption('150g', '150g_2', this)">Pack of 2 (₹298.00)</button>
-        <button type="button" class="size-btn btn-150g" onclick="selectPackOption('150g', '150g_3', this)">Pack of 3 (₹447.00)</button>
+        <button type="button" class="size-btn btn-150g" onclick="selectPackOption('150g', '150g_2', this)">Pack of 2 (₹298.00 - FREE DELIVERY)</button>
+        <button type="button" class="size-btn btn-150g" onclick="selectPackOption('150g', '150g_3', this)">Pack of 3 (₹447.00 - FREE Delivery)</button>
       </div>
     </div>
 
@@ -112,13 +112,17 @@
     <div><span>Total Price:</span> <strong>₹<span id="summary-total">89.10</span></strong></div>
     <div><span>Advance Deposit (50%):</span> <strong style="color: #c5a059;">₹<span id="summary-deposit">44.55</span></strong></div>
   </div>
-
-  <!-- Form -->
-  <form id="preOrderForm" onsubmit="event.preventDefault(); payNow();">
-    <div class="form-group">
-      <label>Full Name</label>
-      <input type="text" id="name" required placeholder="Enter full name">
+  <!-- Delivery Notice -->
+    <div style="background: rgba(255, 255, 255, 0.05); border-left: 3px solid #d4af37; padding: 10px 12px; margin: 15px 0; border-radius: 4px; font-size: 13px; color: #ccc;">
+        🚚 <strong>Delivery Info:</strong> Shipping charges will be calculated & added at dispatch. Expect delivery within 3-5 days post-launch of product.
     </div>
+
+    <!-- Form -->
+    <form id="preOrderForm" onsubmit="event.preventDefault(); payNow();">
+        <div class="form-group">
+            <label>FULL NAME</label>
+            <input type="text" id="name" required placeholder="Enter full name">
+        </div>
     
     <div class="form-group">
       <label>Phone Number</label>
