@@ -1,12 +1,12 @@
 // Setup credentials
-const RAZORPAY_KEY = "rzp_test_YOUR_KEY_HERE"; 
+const RAZORPAY_KEY = "rzp_live_TanFJ9dWEEgNzZ"; 
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/YOUR_EXEC_ID/exec";
 
 // Product Pricing Data Map
 const packDetails = {
   "100g_1": { name: "100g Single Pack (10% OFF)", total: 89.10, deposit: 45.00, deliveryNote: "(+ Delivery as per location)" },
-  "100g_2": { name: "100g Pack of 2 (15% OFF)", total: 168.30, deposit: 84.00, deliveryNote: "(FREE Delivery)" },
-  "100g_3": { name: "100g Pack of 3 (15% OFF)", total: 252.45, deposit: 126.00, deliveryNote: "(FREE Delivery)" },
+  "100g_2": { name: "100g Pack of 2 (10% OFF)", total: 178.20, deposit: 84.00, deliveryNote: "(FREE Delivery)" },
+  "100g_3": { name: "100g Pack of 3 (10% OFF)", total: 267.30, deposit: 126.00, deliveryNote: "(FREE Delivery)" },
   "150g_1": { name: "150g Single Pack", total: 149.00, deposit: 75.00, deliveryNote: "(Standard Delivery)" },
   "150g_2": { name: "150g Pack of 2", total: 298.00, deposit: 149.00, deliveryNote: "(Standard Delivery)" },
   "150g_3": { name: "150g Pack of 3", total: 447.00, deposit: 224.00, deliveryNote: "(Standard Delivery)" }
