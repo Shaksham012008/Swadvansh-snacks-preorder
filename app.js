@@ -1,6 +1,6 @@
 // Setup credentials
 const RAZORPAY_KEY = "rzp_live_TanFJ9dWEEgNzZ"; 
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/YOUR_EXEC_ID/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyYHfnt1bhDQtS_oFkrnpsxZBun8OslOlAijaynB4QfO8X8FDExBDMkD0SFranFA49MDw/exec";
 
 // Product Pricing Data Map
 const packDetails = {
