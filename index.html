@@ -6,7 +6,6 @@
   <title>Pre-Order Swadvansh Snacks</title>
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   
-  <!-- COMPLETE CSS STYLES -->
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #0c0c0e; color: #f0f0f0; padding: 25px 15px; }
@@ -14,18 +13,22 @@
     
     h2 { text-align: center; color: #c5a059; margin-bottom: 22px; font-size: 24px; letter-spacing: 0.5px; text-transform: uppercase; }
     
-    /* YogaBar Style Product Grid Layout */
+    /* Product Grid Layout */
     .product-grid { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 25px; }
     .product-card { border: 2px solid #2a2a32; border-radius: 14px; padding: 18px 14px; width: 290px; text-align: center; background: #1e1e24; position: relative; transition: all 0.3s ease; }
     .product-card.selected-card { border-color: #c5a059; box-shadow: 0 0 12px rgba(197, 160, 89, 0.2); }
     
+    /* Checkbox Bar */
+    .card-select-header { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 5px; background: #121216; padding: 6px; border-radius: 6px; cursor: pointer; }
+    .card-select-header input { cursor: pointer; accent-color: #c5a059; width: 16px; height: 16px; }
+    .card-select-header label { font-size: 12px; font-weight: bold; color: #c5a059; cursor: pointer; }
+
     .badge { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: #e63946; color: #fff; font-size: 9px; font-weight: 800; padding: 4px 10px; border-radius: 20px; white-space: nowrap; text-transform: uppercase; letter-spacing: 0.5px; }
     .badge.gold { background: #c5a059; color: #000; }
     
-    .product-img { width: 100%; height: 130px; object-fit: contain; margin-top: 10px; border-radius: 8px; }
+    .product-img { width: 100%; height: 120px; object-fit: contain; margin-top: 10px; border-radius: 8px; }
     
-    .price-display { font-size: 20px; font-weight: 700; color: #fff; margin: 10px 0 6px 0; }
-    .price-display del { color: #777; font-size: 14px; margin-left: 6px; font-weight: 400; }
+    .price-display { font-size: 18px; font-weight: 700; color: #fff; margin: 8px 0 6px 0; }
     
     .pack-options { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
     
@@ -39,12 +42,11 @@
     .summary-box { background: #1e1e24; border-left: 4px solid #c5a059; padding: 14px 16px; margin: 22px 0; font-size: 13px; border-radius: 0 8px 8px 0; }
     .summary-box div { margin-bottom: 6px; display: flex; justify-content: space-between; }
     .summary-box div:last-child { margin-bottom: 0; }
-    .highlight-delivery { color: #c5a059; font-weight: 600; }
 
     /* Form Inputs */
     .form-group { margin-bottom: 14px; text-align: left; }
     .form-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 5px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
-    .form-group input { width: 100%; padding: 11px; border-radius: 8px; border: 1px solid #3a3a46; background: #101014; color: #fff; font-size: 13px; outline: none; transition: border-color 0.2s; }
+    .form-group input { width: 100%; padding: 11px; border-radius: 8px; border: 1px solid #3a3a46; background: #101014; color: #fff; font-size: 13px; outline: none; }
     .form-group input:focus { border-color: #c5a059; }
     .row { display: flex; gap: 10px; }
 
@@ -58,49 +60,57 @@
 <div class="container">
   <h2>Swadvansh Snacks Pre-Order</h2>
 
-  <!-- YogaBar Style Dual Product Cards -->
+  <!-- Dual Selection Product Cards -->
   <div class="product-grid">
     
-    <!-- 100g Variant Card -->
+    <!-- 100g Card -->
     <div class="product-card selected-card" id="card-100g">
       <span class="badge">FIRST 30 CUSTOMERS - 10% OFF</span>
+      
+      <div class="card-select-header">
+        <input type="checkbox" id="check-100g" checked onchange="toggleCardSelection('100g')">
+        <label for="check-100g">Include 100g Pack</label>
+      </div>
+
       <img src="image_2b6dea.jpg" alt="100g Pack" class="product-img">
-      <h3 style="font-size:16px; margin-top:8px;">100g Pack</h3>
-      <p class="price-display">₹89.10 <del>₹99</del></p>
+      <h3 style="font-size:15px; margin-top:6px;">100g Pack</h3>
       
       <div class="pack-options">
-        <button type="button" class="size-btn active" onclick="selectPack('100g_1', this, 'card-100g')">1 Pack (10% OFF)</button>
-        <button type="button" class="size-btn" onclick="selectPack('100g_2', this, 'card-100g')">Pack of 2 (15% OFF)</button>
-        <button type="button" class="size-btn" onclick="selectPack('100g_3', this, 'card-100g')">Pack of 3 (15% OFF)</button>
+        <button type="button" class="size-btn active btn-100g" onclick="selectPackOption('100g', '100g_1', this)">1 Pack (10% OFF - ₹89.10)</button>
+        <button type="button" class="size-btn btn-100g" onclick="selectPackOption('100g', '100g_2', this)">Pack of 2 (10% OFF - ₹178.20)</button>
+        <button type="button" class="size-btn btn-100g" onclick="selectPackOption('100g', '100g_3', this)">Pack of 3 (10% OFF - ₹267.30)</button>
       </div>
-      <p class="delivery-text">+ Delivery Charge Extra</p>
     </div>
 
-    <!-- 150g Variant Card -->
+    <!-- 150g Card -->
     <div class="product-card" id="card-150g">
       <span class="badge gold">CLASSIC SIZE</span>
+      
+      <div class="card-select-header">
+        <input type="checkbox" id="check-150g" onchange="toggleCardSelection('150g')">
+        <label for="check-150g">Include 150g Pack</label>
+      </div>
+
       <img src="image_2b6dea.jpg" alt="150g Pack" class="product-img">
-      <h3 style="font-size:16px; margin-top:8px;">150g Pack</h3>
-      <p class="price-display">₹149.00</p>
+      <h3 style="font-size:15px; margin-top:6px;">150g Pack</h3>
       
       <div class="pack-options">
-        <button type="button" class="size-btn" onclick="selectPack('150g_1', this, 'card-150g')">1 Pack</button>
-        <button type="button" class="size-btn" onclick="selectPack('150g_2', this, 'card-150g')">Pack of 2</button>
-        <button type="button" class="size-btn" onclick="selectPack('150g_3', this, 'card-150g')">Pack of 3</button>
+        <button type="button" class="size-btn btn-150g" onclick="selectPackOption('150g', '150g_1', this)">1 Pack (₹149.00)</button>
+        <button type="button" class="size-btn btn-150g" onclick="selectPackOption('150g', '150g_2', this)">Pack of 2 (₹298.00)</button>
+        <button type="button" class="size-btn btn-150g" onclick="selectPackOption('150g', '150g_3', this)">Pack of 3 (₹447.00)</button>
       </div>
-      <p class="delivery-text">Standard Shipping</p>
     </div>
 
   </div>
 
-  <!-- Realtime Order Summary Box -->
+  <!-- Dynamic Summary Box -->
   <div class="summary-box">
-    <div><span>Selected Pack:</span> <strong id="summary-name">100g Single Pack (10% OFF)</strong></div>
-    <div><span>Total Price:</span> <strong>₹<span id="summary-total">89.10</span> <span id="summary-delivery" class="highlight-delivery">(+ Delivery as per location)</span></strong></div>
-    <div><span>Advance Deposit (50%):</span> <strong style="color: #c5a059;">₹<span id="summary-deposit">45.00</span></strong></div>
+    <div><span>Selected Order:</span> <strong id="summary-name">100g (1 Pack)</strong></div>
+    <div><span>Total Price:</span> <strong>₹<span id="summary-total">89.10</span></strong></div>
+    <div><span>Advance Deposit (50%):</span> <strong style="color: #c5a059;">₹<span id="summary-deposit">44.55</span></strong></div>
   </div>
 
-  <!-- Shipping Form -->
+  <!-- Form -->
   <form id="preOrderForm" onsubmit="event.preventDefault(); payNow();">
     <div class="form-group">
       <label>Full Name</label>
@@ -136,46 +146,107 @@
   </form>
 </div>
 
-<!-- COMPLETE JAVASCRIPT LOGIC -->
 <script>
-  // Replace these credentials with your actual Keys & Deployment URL
-  const RAZORPAY_KEY = "rzp_test_TamERSEicizxvG"; 
+  const RAZORPAY_KEY = "rzp_test_YOUR_KEY_HERE"; 
   const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/YOUR_EXEC_ID/exec";
 
-  // Product Pricing Data Map
-  const packDetails = {
-    "100g_1": { name: "100g Single Pack (10% OFF)", total: 89.10, deposit: 45.00, deliveryNote: "(+ Delivery as per location)" },
-    "100g_2": { name: "100g Pack of 2 (15% OFF)", total: 168.30, deposit: 84.00, deliveryNote: "(FREE Delivery)" },
-    "100g_3": { name: "100g Pack of 3 (15% OFF)", total: 252.45, deposit: 126.00, deliveryNote: "(FREE Delivery)" },
-    "150g_1": { name: "150g Single Pack", total: 149.00, deposit: 75.00, deliveryNote: "(Standard Delivery)" },
-    "150g_2": { name: "150g Pack of 2", total: 298.00, deposit: 149.00, deliveryNote: "(Standard Delivery)" },
-    "150g_3": { name: "150g Pack of 3", total: 447.00, deposit: 224.00, deliveryNote: "(Standard Delivery)" }
+  // Price Catalog (100g flat 10% OFF updated)
+  const prices = {
+    "100g_1": { name: "100g (1 Pack)", price: 89.10 },
+    "100g_2": { name: "100g (Pack of 2)", price: 178.20 },
+    "100g_3": { name: "100g (Pack of 3)", price: 267.30 },
+    "150g_1": { name: "150g (1 Pack)", price: 149.00 },
+    "150g_2": { name: "150g (Pack of 2)", price: 298.00 },
+    "150g_3": { name: "150g (Pack of 3)", price: 447.00 }
   };
 
-  let selectedKey = "100g_1";
+  let selected100gKey = "100g_1";
+  let selected150gKey = "150g_1";
 
-  // Handles Variant Buttons Click
-  function selectPack(key, element, cardId) {
-    selectedKey = key;
+  function toggleCardSelection(variant) {
+    const is100gChecked = document.getElementById("check-100g").checked;
+    const is150gChecked = document.getElementById("check-150g").checked;
 
-    // Reset all buttons active state
-    document.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('active'));
-    element.classList.add('active');
+    // Prevent unchecking both
+    if (!is100gChecked && !is150gChecked) {
+      document.getElementById(`check-${variant}`).checked = true;
+      alert("At least one product variant must be selected!");
+      return;
+    }
 
-    // Highlight active card border
-    document.querySelectorAll('.product-card').forEach(card => card.classList.remove('selected-card'));
-    document.getElementById(cardId).classList.add('selected-card');
+    document.getElementById("card-100g").classList.toggle("selected-card", is100gChecked);
+    document.getElementById("card-150g").classList.toggle("selected-card", is150gChecked);
 
-    // Update Summary Box DOM Elements
-    const pack = packDetails[selectedKey];
-    document.getElementById("summary-name").innerText = pack.name;
-    document.getElementById("summary-total").innerText = pack.total.toFixed(2);
-    document.getElementById("summary-deposit").innerText = pack.deposit.toFixed(2);
-    document.getElementById("summary-delivery").innerText = pack.deliveryNote;
+    calculateGrandTotal();
   }
 
-  // Triggers Razorpay Checkout & Webhook Payload
+  function selectPackOption(variant, key, element) {
+    // Auto check the checkbox when clicking a pack option button
+    const checkbox = document.getElementById(`check-${variant}`);
+    if (!checkbox.checked) {
+      checkbox.checked = true;
+      document.getElementById(`card-${variant}`).classList.add("selected-card");
+    }
+
+    if (variant === '100g') {
+      selected100gKey = key;
+      document.querySelectorAll('.btn-100g').forEach(btn => btn.classList.remove('active'));
+    } else {
+      selected150gKey = key;
+      document.querySelectorAll('.btn-150g').forEach(btn => btn.classList.remove('active'));
+    }
+    element.classList.add('active');
+
+    calculateGrandTotal();
+  }
+
+  function calculateGrandTotal() {
+    let combinedNames = [];
+    let grandTotal = 0;
+
+    if (document.getElementById("check-100g").checked) {
+      const p100 = prices[selected100gKey];
+      combinedNames.push(p100.name);
+      grandTotal += p100.price;
+    }
+
+    if (document.getElementById("check-150g").checked) {
+      const p150 = prices[selected150gKey];
+      combinedNames.push(p150.name);
+      grandTotal += p150.price;
+    }
+
+    const deposit = grandTotal * 0.5;
+
+    document.getElementById("summary-name").innerText = combinedNames.join(" + ");
+    document.getElementById("summary-total").innerText = grandTotal.toFixed(2);
+    document.getElementById("summary-deposit").innerText = deposit.toFixed(2);
+  }
+
   function payNow() {
+    const is100gChecked = document.getElementById("check-100g").checked;
+    const is150gChecked = document.getElementById("check-150g").checked;
+
+    if (!is100gChecked && !is150gChecked) {
+      alert("Please select at least one pack variant.");
+      return;
+    }
+
+    let orderItems = [];
+    let totalPrice = 0;
+
+    if (is100gChecked) {
+      orderItems.push(prices[selected100gKey].name);
+      totalPrice += prices[selected100gKey].price;
+    }
+    if (is150gChecked) {
+      orderItems.push(prices[selected150gKey].name);
+      totalPrice += prices[selected150gKey].price;
+    }
+
+    const depositAmount = totalPrice * 0.5;
+    const packSummary = orderItems.join(" + ");
+
     const name = document.getElementById("name").value;
     const phone = document.getElementById("phone").value;
     const street = document.getElementById("street").value;
@@ -184,16 +255,13 @@
     const pincode = document.getElementById("pincode").value;
     const fullAddress = `${street}, ${city}, ${state} - ${pincode}`;
 
-    const selectedPack = packDetails[selectedKey];
-
     const options = {
       "key": RAZORPAY_KEY,
-      "amount": Math.round(selectedPack.deposit * 100), // Amount in Paise
+      "amount": Math.round(depositAmount * 100),
       "currency": "INR",
       "name": "Swadvansh Snacks",
-      "description": "50% Deposit for " + selectedPack.name,
+      "description": "50% Deposit for " + packSummary,
       "handler": function (response) {
-        // Post data to Google Apps Script Web App
         fetch(GOOGLE_SCRIPT_URL, {
           method: "POST",
           mode: "no-cors",
@@ -206,10 +274,10 @@
             state: state,
             pincode: pincode,
             fullAddress: fullAddress,
-            pack: selectedPack.name,
-            totalPrice: selectedPack.total,
-            paidDeposit: selectedPack.deposit,
-            dueBalance: (selectedPack.total - selectedPack.deposit).toFixed(2),
+            pack: packSummary,
+            totalPrice: totalPrice.toFixed(2),
+            paidDeposit: depositAmount.toFixed(2),
+            dueBalance: (totalPrice - depositAmount).toFixed(2),
             paymentId: response.razorpay_payment_id
           })
         }).then(() => {
@@ -229,5 +297,4 @@
 </script>
 
 </body>
-<script src="script.js"></script>
 </html>
