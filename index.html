@@ -27,12 +27,11 @@
     .badge.gold { background: #c5a059; color: #000; }
     
     .product-img {
-    width: 100%;
-    max-height: 290px; /* Pehle 100px-120px tha, ab bada ho jayega */
-    object-fit: contain;
-    margin: 20px 0;
-}
-    .price-display { font-size: 28px; font-weight: 800; color: #fff; margin: 8px 0 6px 0; }
+      width: 100%;
+      max-height: 290px;
+      object-fit: contain;
+      margin: 20px 0;
+    }
     
     .pack-options { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
     
@@ -40,8 +39,6 @@
     .size-btn:hover { border-color: #c5a059; color: #fff; }
     .size-btn.active { background: #c5a059; color: #000; border-color: #c5a059; font-weight: 700; }
     
-    .delivery-text { font-size: 11px; color: #8a8a9a; margin-top: 4px; }
-
     /* Order Summary Box */
     .summary-box { background: #1e1e24; border-left: 4px solid #c5a059; padding: 14px 16px; margin: 22px 0; font-size: 13px; border-radius: 0 8px 8px 0; }
     .summary-box div { margin-bottom: 6px; display: flex; justify-content: space-between; }
@@ -55,7 +52,7 @@
     .row { display: flex; gap: 10px; }
 
     /* Submit Button */
-    .btn-submit { width: 100%; padding: 14px; background: #c5a059; color: #000; font-weight: 800; font-size: 15px; border: none; border-radius: 8px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 10px; transition: background 0.2s; }
+    .btn-submit { width: 100%; padding: 14px; background: #c5a059; color: #000; font-weight: 800; font-size: 14px; border: none; border-radius: 8px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 10px; transition: background 0.2s; }
     .btn-submit:hover { background: #d4af37; }
   </style>
 </head>
@@ -63,6 +60,23 @@
 
 <div class="container">
   <h2>Swadvansh Snacks Pre-Order</h2>
+
+  <!-- Urgency Banner, Counter & Timer -->
+  <div style="background: #1e1e24; border: 1px solid #c5a059; padding: 12px; border-radius: 10px; text-align: center; margin-bottom: 20px;">
+    <div style="background: #c5a059; color: #000; font-weight: bold; font-size: 11px; padding: 4px 10px; border-radius: 12px; display: inline-block; margin-bottom: 8px;">
+      🔥 LIMITED PRE-ORDER OFFER — BUY FAST!
+    </div>
+    <div style="display: flex; justify-content: space-between; color: #fff; font-size: 12px; font-weight: 600; margin-bottom: 5px;">
+      <span>Orders Booked: <strong id="booked-count" style="color: #c5a059;">1</strong> / 30</span>
+      <span>Remaining: <strong id="left-count" style="color: #c5a059;">29</strong> slots</span>
+    </div>
+    <div style="background: #2a2a32; height: 8px; border-radius: 4px; overflow: hidden;">
+      <div id="progress-fill" style="background: #c5a059; height: 100%; width: 3.33%; transition: width 0.4s ease;"></div>
+    </div>
+    <div style="margin-top: 8px; font-size: 12px; color: #aaa;">
+      Pre-orders Close In: <span id="countdown-timer" style="color: #c5a059; font-weight: bold;">Loading...</span>
+    </div>
+  </div>
 
   <!-- Dual Selection Product Cards -->
   <div class="product-grid">
@@ -98,7 +112,7 @@
       <h3 style="font-size:15px; margin-top:6px;">150g Pack</h3>
       
       <div class="pack-options">
-        <button type="button" class="size-btn btn-150g" onclick="selectPackOption('150g', '150g_1', this)">1 Pack (10% OFF FOR FIRST 30 CUSTOMERS - ₹119.00)</button>
+        <button type="button" class="size-btn btn-150g" onclick="selectPackOption('150g', '150g_1', this)">1 Pack (₹149.00)</button>
         <button type="button" class="size-btn btn-150g" onclick="selectPackOption('150g', '150g_2', this)">Pack of 2 (₹298.00 - FREE DELIVERY)</button>
         <button type="button" class="size-btn btn-150g" onclick="selectPackOption('150g', '150g_3', this)">Pack of 3 (₹447.00 - FREE Delivery)</button>
       </div>
@@ -109,21 +123,26 @@
   <!-- Dynamic Summary Box -->
   <div class="summary-box">
     <div><span>Selected Order:</span> <strong id="summary-name">100g (1 Pack)</strong></div>
-    <div><span>Total Price:</span> <strong>₹<span id="summary-total">89.10</span></strong></div>
-    <div><span>Advance Deposit (50%):</span> <strong style="color: #c5a059;">₹<span id="summary-deposit">44.55</span></strong></div>
-  </div>
-  <!-- Delivery Notice -->
-    <div style="background: rgba(255, 255, 255, 0.05); border-left: 3px solid #d4af37; padding: 10px 12px; margin: 15px 0; border-radius: 4px; font-size: 13px; color: #ccc;">
-        🚚 <strong>Delivery Info:</strong> Shipping charges will be calculated & added at dispatch. Expect delivery within 3-5 days post-launch of product.
+    <div><span>Item Total Price:</span> <strong>₹<span id="summary-total">89.10</span></strong></div>
+    <div><span>Delivery Fee:</span> <strong><span id="summary-delivery">₹30.00</span></strong></div>
+    <div><span id="label-payable">Payable Now (50% Deposit):</span> <strong style="color: #c5a059;">₹<span id="summary-deposit">44.55</span></strong></div>
+    <div id="row-balance-due" style="border-top: 1px dashed #3a3a46; padding-top: 6px; margin-top: 6px;">
+      <span>Balance Due on Delivery:</span> <strong style="color: #e63946;">₹<span id="summary-balance">74.55</span></strong>
     </div>
+  </div>
 
-    <!-- Form -->
-    <form id="preOrderForm" onsubmit="event.preventDefault(); payNow();">
-        <div class="form-group">
-            <label>FULL NAME</label>
-            <input type="text" id="name" required placeholder="Enter full name">
-        </div>
-    
+  <!-- Delivery Notice -->
+  <div style="background: rgba(255, 255, 255, 0.05); border-left: 3px solid #d4af37; padding: 10px 12px; margin: 15px 0; border-radius: 4px; font-size: 13px; color: #ccc;">
+    🚚 <strong>Delivery Info:</strong> FREE Delivery on Pack of 2 & 3! ₹30 standard delivery fee on single pack orders.
+  </div>
+
+  <!-- Form -->
+  <form id="preOrderForm" onsubmit="event.preventDefault(); payNow();">
+    <div class="form-group">
+      <label>FULL NAME</label>
+      <input type="text" id="name" required placeholder="Enter full name">
+    </div>
+  
     <div class="form-group">
       <label>Phone Number</label>
       <input type="tel" id="phone" required placeholder="10-digit mobile number">
@@ -149,7 +168,46 @@
       </div>
     </div>
 
-    <button type="submit" class="btn-submit">Pay 50% Deposit & Pre-Order Now</button>
+    <!-- PAYMENT METHOD OPTIONS -->
+    <div class="form-group" style="margin-top: 20px;">
+      <label style="display: block; font-size: 12px; color: #aaa; margin-bottom: 10px; font-weight: bold;">SELECT PAYMENT METHOD</label>
+
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        
+        <!-- Option 1: 50% Deposit -->
+        <label style="display: flex; align-items: flex-start; gap: 10px; padding: 12px; border: 1px solid #c5a059; border-radius: 8px; background: #1e1e24; cursor: pointer;">
+          <input type="radio" name="pay_mode" id="pay_deposit" value="deposit" checked onclick="updatePaymentMode()" style="accent-color: #c5a059; width: 18px; height: 18px; margin-top: 2px;">
+          <div>
+            <strong style="display: block; font-size: 12px; color: #fff;">🟢 UPI / CARDS / NETBANKING (DEPOSIT)</strong>
+            <span style="font-size: 11px; color: #aaa;">PAY 50% DEPOSIT NOW + BALANCE AT DISPATCH <b style="color: #c5a059;">(SAVE ₹40 EXTRA COD FEES)</b></span>
+          </div>
+        </label>
+
+        <!-- Option 2: Full Payment -->
+        <label style="display: flex; align-items: flex-start; gap: 10px; padding: 12px; border: 1px solid #3a3a46; border-radius: 8px; background: #1e1e24; cursor: pointer;">
+          <input type="radio" name="pay_mode" id="pay_full" value="full" onclick="updatePaymentMode()" style="accent-color: #c5a059; width: 18px; height: 18px; margin-top: 2px;">
+          <div>
+            <strong style="display: block; font-size: 12px; color: #fff;">🟢 UPI / CARDS / NETBANKING (FULL PAYMENT)</strong>
+            <span style="font-size: 11px; color: #aaa;">TOTAL AMOUNT (FREE DELIVERY ON PACK 2 & 3) <b style="color: #c5a059;">(SAVE ₹40 EXTRA COD FEES)</b></span>
+          </div>
+        </label>
+
+        <!-- Option 3: Cash on Delivery -->
+        <label style="display: flex; align-items: flex-start; gap: 10px; padding: 12px; border: 1px solid #3a3a46; border-radius: 8px; background: #1e1e24; cursor: pointer;">
+          <input type="radio" name="pay_mode" id="pay_cod" value="cod" onclick="updatePaymentMode()" style="accent-color: #c5a059; width: 18px; height: 18px; margin-top: 2px;">
+          <div>
+            <strong style="display: block; font-size: 12px; color: #fff;">🟠 CASH ON DELIVERY (COD)</strong>
+            <span id="cod-text-info" style="font-size: 11px; color: #aaa;">PAY ₹40.00 TOKEN FEE NOW + BALANCE ON DELIVERY</span>
+          </div>
+        </label>
+
+      </div>
+    </div>
+
+    <!-- SINGLE DYNAMIC SUBMIT BUTTON -->
+    <button type="submit" id="submit-btn" class="btn-submit">
+      PAY 50% DEPOSIT & PRE-ORDER NOW
+    </button>
   </form>
 </div>
 
@@ -157,14 +215,13 @@
   const RAZORPAY_KEY = "rzp_live_TanFJ9dWEEgNzZ"; 
   const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyYHfnt1bhDQtS_oFkrnpsxZBun8OslOlAijaynB4QfO8X8FDExBDMkD0SFranFA49MDw/exec";
 
-  // Price Catalog (100g flat 10% OFF updated)
   const prices = {
-    "100g_1": { name: "100g (1 Pack)", price: 89.10 },
-    "100g_2": { name: "100g (Pack of 2)", price: 178.20 },
-    "100g_3": { name: "100g (Pack of 3)", price: 267.30 },
-    "150g_1": { name: "150g (1 Pack)", price: 149.00 },
-    "150g_2": { name: "150g (Pack of 2)", price: 298.00 },
-    "150g_3": { name: "150g (Pack of 3)", price: 447.00 }
+    "100g_1": { name: "100g (1 Pack)", price: 89.10, freeDelivery: false },
+    "100g_2": { name: "100g (Pack of 2)", price: 178.20, freeDelivery: true },
+    "100g_3": { name: "100g (Pack of 3)", price: 267.30, freeDelivery: true },
+    "150g_1": { name: "150g (1 Pack)", price: 149.00, freeDelivery: false },
+    "150g_2": { name: "150g (Pack of 2)", price: 298.00, freeDelivery: true },
+    "150g_3": { name: "150g (Pack of 3)", price: 447.00, freeDelivery: true }
   };
 
   let selected100gKey = "100g_1";
@@ -174,7 +231,6 @@
     const is100gChecked = document.getElementById("check-100g").checked;
     const is150gChecked = document.getElementById("check-150g").checked;
 
-    // Prevent unchecking both
     if (!is100gChecked && !is150gChecked) {
       document.getElementById(`check-${variant}`).checked = true;
       alert("At least one product variant must be selected!");
@@ -188,7 +244,6 @@
   }
 
   function selectPackOption(variant, key, element) {
-    // Auto check the checkbox when clicking a pack option button
     const checkbox = document.getElementById(`check-${variant}`);
     if (!checkbox.checked) {
       checkbox.checked = true;
@@ -207,6 +262,105 @@
     calculateGrandTotal();
   }
 
+  function getDeliveryFee() {
+    const is100gChecked = document.getElementById("check-100g").checked;
+    const is150gChecked = document.getElementById("check-150g").checked;
+
+    let isFreeDeliveryEligible = false;
+
+    if (is100gChecked && prices[selected100gKey].freeDelivery) {
+      isFreeDeliveryEligible = true;
+    }
+    if (is150gChecked && prices[selected150gKey].freeDelivery) {
+      isFreeDeliveryEligible = true;
+    }
+
+    return isFreeDeliveryEligible ? 0.00 : 30.00;
+  }
+
+  function updatePaymentMode() {
+    let grandTotal = 0;
+
+    if (document.getElementById("check-100g").checked) {
+      grandTotal += prices[selected100gKey].price;
+    }
+    if (document.getElementById("check-150g").checked) {
+      grandTotal += prices[selected150gKey].price;
+    }
+
+    const currentDeliveryFee = getDeliveryFee();
+    const finalOrderTotal = grandTotal + currentDeliveryFee;
+
+    const payCod = document.getElementById("pay_cod")?.checked;
+    const payFull = document.getElementById("pay_full")?.checked;
+    const submitBtn = document.getElementById("submit-btn");
+
+    const labelPayable = document.getElementById("label-payable");
+    const rowBalance = document.getElementById("row-balance-due");
+    const summaryBalance = document.getElementById("summary-balance");
+    const codTextInfo = document.getElementById("cod-text-info");
+
+    let payableAmount = 0;
+    let balanceDue = 0;
+
+    // Dynamically update COD Radio Option Subtext
+    const codBalanceCalc = finalOrderTotal - 40.00;
+    if (codTextInfo) {
+      codTextInfo.innerHTML = `PAY ₹40.00 TOKEN FEE NOW + <b style="color: #c5a059;">₹${codBalanceCalc.toFixed(2)} BALANCE ON DELIVERY</b>`;
+    }
+
+    if (payCod) {
+      payableAmount = 40.00;
+      balanceDue = finalOrderTotal - payableAmount;
+
+      labelPayable.innerText = "Payable Now (Token Fee):";
+      rowBalance.style.display = "flex";
+      summaryBalance.innerText = balanceDue.toFixed(2);
+
+      // Button Text with Dynamic Token Fee + Dynamic Balance
+      if (submitBtn) submitBtn.innerText = `PAY ₹40.00 TOKEN FEE NOW (+ ₹${balanceDue.toFixed(2)} ON DELIVERY)`;
+
+    } else if (payFull) {
+      payableAmount = finalOrderTotal;
+      balanceDue = 0.00;
+
+      labelPayable.innerText = "Payable Now (Full Amount):";
+      rowBalance.style.display = "none";
+
+      if (submitBtn) {
+        if (currentDeliveryFee === 0) {
+          submitBtn.innerText = `PAY ₹${payableAmount.toFixed(2)} (FREE DELIVERY) & PRE-ORDER NOW`;
+        } else {
+          submitBtn.innerText = `PAY ₹${payableAmount.toFixed(2)} (INCL. ₹30 DELIVERY) & PRE-ORDER NOW`;
+        }
+      }
+
+    } else {
+      // 50% Deposit
+      payableAmount = grandTotal * 0.5;
+      balanceDue = finalOrderTotal - payableAmount;
+
+      labelPayable.innerText = "Payable Now (50% Deposit):";
+      rowBalance.style.display = "flex";
+      summaryBalance.innerText = balanceDue.toFixed(2);
+
+      if (submitBtn) submitBtn.innerText = "PAY 50% DEPOSIT & PRE-ORDER NOW";
+    }
+
+    const deliverySummaryEl = document.getElementById("summary-delivery");
+    if (deliverySummaryEl) {
+      if (currentDeliveryFee === 0) {
+        deliverySummaryEl.innerText = "FREE";
+        deliverySummaryEl.style.color = "#4CAF50";
+      } else {
+        deliverySummaryEl.innerText = "₹30.00";
+        deliverySummaryEl.style.color = "#fff";
+      }
+    }
+
+    document.getElementById("summary-deposit").innerText = payableAmount.toFixed(2);
+  }
+
   function calculateGrandTotal() {
     let combinedNames = [];
     let grandTotal = 0;
@@ -223,11 +377,10 @@
       grandTotal += p150.price;
     }
 
-    const deposit = grandTotal * 0.5;
-
     document.getElementById("summary-name").innerText = combinedNames.join(" + ");
     document.getElementById("summary-total").innerText = grandTotal.toFixed(2);
-    document.getElementById("summary-deposit").innerText = deposit.toFixed(2);
+
+    updatePaymentMode();
   }
 
   function payNow() {
@@ -251,7 +404,26 @@
       totalPrice += prices[selected150gKey].price;
     }
 
-    const depositAmount = totalPrice * 0.5;
+    const currentDeliveryFee = getDeliveryFee();
+
+    const payCod = document.getElementById("pay_cod").checked;
+    const payFull = document.getElementById("pay_full").checked;
+
+    let payableAmount = 0;
+    let payModeText = "DEPOSIT";
+    let finalOrderTotal = totalPrice + currentDeliveryFee;
+
+    if (payCod) {
+      payableAmount = 40.00;
+      payModeText = "COD";
+    } else if (payFull) {
+      payableAmount = finalOrderTotal;
+      payModeText = "FULL";
+    } else {
+      payableAmount = totalPrice * 0.5;
+      payModeText = "DEPOSIT";
+    }
+
     const packSummary = orderItems.join(" + ");
 
     const name = document.getElementById("name").value;
@@ -264,10 +436,10 @@
 
     const options = {
       "key": RAZORPAY_KEY,
-      "amount": Math.round(depositAmount * 100),
+      "amount": Math.round(payableAmount * 100),
       "currency": "INR",
       "name": "Swadvansh Snacks",
-      "description": "50% Deposit for " + packSummary,
+      "description": `${payModeText} Payment for ${packSummary}`,
       "handler": function (response) {
         fetch(GOOGLE_SCRIPT_URL, {
           method: "POST",
@@ -282,14 +454,18 @@
             pincode: pincode,
             fullAddress: fullAddress,
             pack: packSummary,
-            totalPrice: totalPrice.toFixed(2),
-            paidDeposit: depositAmount.toFixed(2),
-            dueBalance: (totalPrice - depositAmount).toFixed(2),
+            paymentMode: payModeText,
+            itemTotal: totalPrice.toFixed(2),
+            deliveryFee: currentDeliveryFee.toFixed(2),
+            totalPrice: finalOrderTotal.toFixed(2),
+            paidAmount: payableAmount.toFixed(2),
+            dueBalance: (finalOrderTotal - payableAmount).toFixed(2),
             paymentId: response.razorpay_payment_id
           })
         }).then(() => {
           alert("Pre-order placed successfully! Payment ID: " + response.razorpay_payment_id);
           document.getElementById("preOrderForm").reset();
+          updatePaymentMode();
         }).catch(() => {
           alert("Payment done, but failed to sync data.");
         });
@@ -301,6 +477,53 @@
     const rzp = new Razorpay(options);
     rzp.open();
   }
+
+  // Stock Tracker
+  const totalLimit = 30;
+  let ordersBooked = 1;
+
+  function updateStockTracker() {
+    const remaining = totalLimit - ordersBooked;
+    const percentage = (ordersBooked / totalLimit) * 100;
+
+    const bookedEl = document.getElementById('booked-count');
+    const leftEl = document.getElementById('left-count');
+    const progressEl = document.getElementById('progress-fill');
+
+    if (bookedEl && leftEl && progressEl) {
+      bookedEl.innerText = ordersBooked;
+      leftEl.innerText = remaining;
+      progressEl.style.width = percentage + '%';
+    }
+  }
+
+  // Countdown Timer
+  const targetDate = new Date("September 25, 2026 23:59:59").getTime();
+
+  const timerInterval = setInterval(function() {
+    const now = new Date().getTime();
+    const distance = targetDate - now;
+    const timerEl = document.getElementById("countdown-timer");
+
+    if (!timerEl) return;
+
+    if (distance < 0) {
+      clearInterval(timerInterval);
+      timerEl.innerHTML = "PRE-ORDERS CLOSED";
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    timerEl.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  }, 1000);
+
+  // Initialize
+  updateStockTracker();
+  updatePaymentMode();
 </script>
 
 </body>
